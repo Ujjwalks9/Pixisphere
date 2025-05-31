@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  backend:
+    build: .
+    ports:
+      - '5000:5000'
+    volumes:
+      - .:/app
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/pixisphere
+      - PG_URI=postgres://postgres:postgres@postgres:5432/pixisphere
+      - JWT_SECRET=supersecretjwt
+    depends_on:
+      - mongo
+      - postgres
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pixisphere
+    ports:
+      - '5432:5432'
